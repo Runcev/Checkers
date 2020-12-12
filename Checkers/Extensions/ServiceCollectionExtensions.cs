@@ -1,4 +1,6 @@
+using Checkers.Services;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace Checkers.Extensions
 {
@@ -7,6 +9,7 @@ namespace Checkers.Extensions
         public static void RegisterServices(this IServiceCollection services)
         {
             services.AddHttpClient();
+            services.AddScoped<TestService>();
         }
     }
 }
