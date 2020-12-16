@@ -20,11 +20,6 @@ namespace Checkers
 
         private static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                // .ConfigureAppConfiguration(appConfig =>
-                // {
-                //     appConfig.SetBasePath(Directory.GetCurrentDirectory());
-                //     appConfig.AddJsonFile("appsettings.json");
-                // })
                 .ConfigureServices(services => services.RegisterServices());
     }
 }
