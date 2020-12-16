@@ -1,4 +1,4 @@
-namespace Logic.Models
+namespace Shared.Models
 {
     public record GameInfo
     {

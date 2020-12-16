@@ -1,4 +1,4 @@
-namespace Logic.Models.Enums
+namespace Shared.Models.Enums
 {
     public enum Player
     {

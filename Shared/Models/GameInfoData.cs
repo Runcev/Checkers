@@ -1,7 +1,7 @@
 using System.Text.Json.Serialization;
-using Logic.Models.Enums;
+using Shared.Models.Enums;
 
-namespace Logic.Models
+namespace Shared.Models
 {
     public record GameInfoData
     {
