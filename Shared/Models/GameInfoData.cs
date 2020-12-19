@@ -18,5 +18,13 @@ namespace Shared.Models
         public bool IsFinished { get; init; }        
         [JsonPropertyName("last_move")]
         public LastMoveInfo LastMove { get; init; }
+
+        public void Deconstruct(out Player whoseTurn, out Player? winner, out Square[] board, out LastMoveInfo lastMove)
+        {
+            whoseTurn = WhoseTurn;
+            winner = Winner;
+            board = Board;
+            lastMove = LastMove;
+        }
     }
 }

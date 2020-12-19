@@ -12,7 +12,7 @@ namespace Shared.Services
 {
     public class ApiClient
     {
-        private static readonly JsonSerializerOptions JsonOptions = new(JsonSerializerDefaults.Web)
+        public static readonly JsonSerializerOptions JsonOptions = new(JsonSerializerDefaults.Web)
         {
             Converters =
             {
@@ -35,11 +35,10 @@ namespace Shared.Services
 
         private string AddBasePath(string path) => $"{_configuration["BaseApiUri"]}{path}";
         
-        public Task<T> Get<T>(string url) => SendRequest(async client => await client.GetFromJsonAsync<T>(AddBasePath(url), JsonOptions));
+        public Task<T> Get<T>(string url) => SendRequest(client => client.GetFromJsonAsync<T>(AddBasePath(url), JsonOptions));
 
-        public Task<T> Post<T>(string url, object body) =>
-            SendRequest(async client => await (await client.PostAsJsonAsync(AddBasePath(url), body, JsonOptions))
-                .Content.ReadFromJsonAsync<T>(JsonOptions));
+        public Task<HttpResponseMessage> Post(string url, object body) =>
+            SendRequest(client => client.PostAsJsonAsync(AddBasePath(url), body, JsonOptions));
 
         private async Task<T> SendRequest<T>(Func<HttpClient, Task<T>> makeRequest)
         {

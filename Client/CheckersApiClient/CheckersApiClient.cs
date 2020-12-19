@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
+using System.Net.Http.Json;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Shared.Models;
@@ -17,7 +19,14 @@ namespace Client.CheckersApiClient
         }
 
         public Task<GameInfo> GetGameInfo() => _apiClient.Get<GameInfo>("/game");
-        public Task<Connect> ConnectToGame() => _apiClient.Post<Connect>($"/game?team_name=PepeLaugh{DateTime.Now.Millisecond}", null);
-        public Task<string> MakeMove((int from, int to) move) => _apiClient.Post<string>("/move", new {move.from, move.to});
+        public async Task<Connect> ConnectToGame() => 
+            await (await _apiClient.Post($"/game?team_name=PepeLaugh{DateTime.Now.Millisecond}", null))
+            .Content.ReadFromJsonAsync<Connect>(ApiClient.JsonOptions);
+        public Task<HttpResponseMessage> MakeMove((int from, int to) moveP)
+        {
+            var move = new[] {moveP.from, moveP.to};
+            var moveR = new {move};
+            return _apiClient.Post("/move", moveR);
+        }
     }
 }

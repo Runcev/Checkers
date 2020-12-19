@@ -3,6 +3,8 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Client.CheckersApiClient;
+using Logic.Algorithm;
+using Logic.Game;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -28,19 +30,30 @@ namespace Checkers.Services
 
             var userStore = scope.ServiceProvider.GetRequiredService<UserStore>();
             var checkersApiClient = scope.ServiceProvider.GetRequiredService<CheckersApiClient>();
-            
-            _logger.LogInformation((await checkersApiClient.GetGameInfo()).ToString());
-            
-            var con = await checkersApiClient.ConnectToGame();
 
-            userStore.Token = con.Data.Token;
+            var state = (await checkersApiClient.GetGameInfo()).Data;
+            var game = new CheckersGame(state);
+            var search = new IterativeAlphaBeta(game, state.AvailableTime);
+            
+            var connect = await checkersApiClient.ConnectToGame();
 
-            while (!stoppingToken.IsCancellationRequested)
+            userStore.Token = connect.Data.Token;
+
+            // while (!stoppingToken.IsCancellationRequested)
+            while (true)
             {
-                if ((await checkersApiClient.GetGameInfo()).Data.WhoseTurn == con.Data.Color)
+                var data = (await checkersApiClient.GetGameInfo()).Data;
+
+                if (data.IsStarted && data.WhoseTurn == connect.Data.Color)
                 {
+                    var move = search.MakeDecision(new MapState(data));
+
+                    // _logger.LogWarning(move.Action.ToString());
                     
+                    await checkersApiClient.MakeMove(move.Action);
                 }
+
+                await Task.Delay(1000);
             }
         }
     }
