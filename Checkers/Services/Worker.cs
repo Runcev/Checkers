@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Client.CheckersApiClient;
@@ -33,6 +34,10 @@ namespace Checkers.Services
             var con = await checkersApiClient.ConnectToGame();
 
             userStore.Token = con.Data.Token;
+
+            await Task.Delay(10000);
+
+            var moves = (await checkersApiClient.GetGameInfo()).Data.LastMove.Moves;
 
             while (!stoppingToken.IsCancellationRequested)
             {
