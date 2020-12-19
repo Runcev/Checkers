@@ -15,6 +15,8 @@ namespace Shared.Models
         [JsonPropertyName("is_started")]
         public bool IsStarted { get; init; }
         [JsonPropertyName("is_finished")]
-        public bool IsFinished { get; init; }
+        public bool IsFinished { get; init; }        
+        [JsonPropertyName("last_move")]
+        public LastMoveInfo LastMove { get; init; }
     }
 }
