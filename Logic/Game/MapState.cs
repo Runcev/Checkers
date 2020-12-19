@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Logic.Manager;
 using Shared.Models;
 using Shared.Models.Enums;
 
@@ -16,28 +17,14 @@ namespace Logic.Game
         
         public Player GetPlayer() => _gameInfo.WhoseTurn;
 
-        public bool IsTerminal()
-        {
-            if (_gameInfo.Winner != null)
-            {
-                return true;
-            }
-
-            return false;
-        }
-        
+        public bool IsTerminal() => _gameInfo.Winner != null;
 
         public List<MoveAction> GetActions()
         {
-            var moves = new List<MoveAction>
+            return new()
             {
-                new MoveAction(MoveActionEnum.ForwardRight),
-                new MoveAction(MoveActionEnum.ForwardLeft),
-                new MoveAction(MoveActionEnum.BackLeft),
-                new MoveAction(MoveActionEnum.BackRight),
+                new() {Action = (9, 13)}
             };
-            
-            return moves;
         }
         
         public void Move(MoveAction action)
@@ -59,43 +46,29 @@ namespace Logic.Game
 
         public int GetUtility(Player player)
         {
-            if (player == Player.Black)
+            if (player == GetPlayer())
             {
-                return Map[player.X][player.Y].Contains(TileState.Skovoroda) ? int.MinValue : int.MaxValue;
+                return GetPlayer() == Player.Red ? int.MaxValue : int.MinValue;
             }
             
-            return Map[player.X][player.Y].Contains(TileState.World) ? int.MinValue : int.MaxValue;
+            return GetPlayer() == Player.Red ? int.MinValue : int.MaxValue;
         }
 
         public int Eval()
         {
-           
+            return _gameInfo.GetPlayerSquares(GetPlayer()).Sum(s => s.King ? 4 : 1);
         }
 
         public object Clone()
         {
-            var result = (MapState) MemberwiseClone();
-
-            result.Map = new List<TileState>[Map.Length][];
-
-            for (int i = 0; i < Map.Length; i++)
-            {
-                result.Map[i] = new List<TileState>[Map[i].Length];
-                for (int j = 0; j < Map[i].Length; j++)
+            return _gameInfo with
                 {
-                    result.Map[i][j] = new List<TileState>();
-                    result.Map[i][j].AddRange(Map[i][j]);
-                }
-            }
-
-            result.Skovoroda = Skovoroda.Clone() as Skovoroda;
-
-            result.Worlds = Worlds.Select(world => world.Clone() as World).ToList();
-
-            result._players = new List<Player> {result.Skovoroda};
-            result._players.AddRange(result.Worlds);
-
-            return result;
+                Board = _gameInfo.Board.Select(a => a with {}).ToArray(),
+                LastMove = _gameInfo.LastMove with 
+                    {
+                     LastMoves = _gameInfo.LastMove.LastMoves.Select(l => l.Select(i => i).ToList()).ToList()
+                    }
+                };
         }
     }
 }
