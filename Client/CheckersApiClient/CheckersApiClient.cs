@@ -18,5 +18,6 @@ namespace Client.CheckersApiClient
 
         public Task<GameInfo> GetGameInfo() => _apiClient.Get<GameInfo>("/game");
         public Task<Connect> ConnectToGame() => _apiClient.Post<Connect>($"/game?team_name=PepeLaugh{DateTime.Now.Millisecond}", null);
+        public Task<string> MakeMove((int from, int to) move) => _apiClient.Post<string>("/move", new {move.from, move.to});
     }
 }

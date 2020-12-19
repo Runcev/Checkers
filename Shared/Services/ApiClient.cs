@@ -37,9 +37,9 @@ namespace Shared.Services
         
         public Task<T> Get<T>(string url) => SendRequest(async client => await client.GetFromJsonAsync<T>(AddBasePath(url), JsonOptions));
 
-        public Task<T> Post<T>(string url, HttpContent body) =>
+        public Task<T> Post<T>(string url, object body) =>
             SendRequest(async client => await (await client.PostAsJsonAsync(AddBasePath(url), body, JsonOptions))
-                .EnsureSuccessStatusCode().Content.ReadFromJsonAsync<T>(JsonOptions));
+                .Content.ReadFromJsonAsync<T>(JsonOptions));
 
         private async Task<T> SendRequest<T>(Func<HttpClient, Task<T>> makeRequest)
         {
