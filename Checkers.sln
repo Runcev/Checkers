@@ -2,6 +2,12 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Checkers", "Checkers\Checkers.csproj", "{1C725455-1FEE-438D-9A6C-74B86E129C04}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "Shared\Shared.csproj", "{9CE70B29-E929-45CA-BC5A-8C35CD033688}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client", "Client\Client.csproj", "{CEE42C13-71FF-40A5-959C-D9B90E626506}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logic", "Logic\Logic.csproj", "{D1FE0C1A-F29C-413F-BFC0-64CF812AFA60}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +18,17 @@ Global
 		{1C725455-1FEE-438D-9A6C-74B86E129C04}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1C725455-1FEE-438D-9A6C-74B86E129C04}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1C725455-1FEE-438D-9A6C-74B86E129C04}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9CE70B29-E929-45CA-BC5A-8C35CD033688}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9CE70B29-E929-45CA-BC5A-8C35CD033688}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9CE70B29-E929-45CA-BC5A-8C35CD033688}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9CE70B29-E929-45CA-BC5A-8C35CD033688}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CEE42C13-71FF-40A5-959C-D9B90E626506}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CEE42C13-71FF-40A5-959C-D9B90E626506}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CEE42C13-71FF-40A5-959C-D9B90E626506}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CEE42C13-71FF-40A5-959C-D9B90E626506}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D1FE0C1A-F29C-413F-BFC0-64CF812AFA60}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D1FE0C1A-F29C-413F-BFC0-64CF812AFA60}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D1FE0C1A-F29C-413F-BFC0-64CF812AFA60}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D1FE0C1A-F29C-413F-BFC0-64CF812AFA60}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
