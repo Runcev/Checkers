@@ -29,13 +29,18 @@ namespace Checkers.Services
             var checkersApiClient = scope.ServiceProvider.GetRequiredService<CheckersApiClient>();
             
             _logger.LogInformation((await checkersApiClient.GetGameInfo()).ToString());
-            await checkersApiClient.ConnectToGame();
+            
+            var con = await checkersApiClient.ConnectToGame();
 
-            // while (!stoppingToken.IsCancellationRequested)
-            // {
-            //     
-            //     await Task.Delay(1000, stoppingToken);
-            // }
+            userStore.Token = con.Data.Token;
+
+            while (!stoppingToken.IsCancellationRequested)
+            {
+                if ((await checkersApiClient.GetGameInfo()).Data.WhoseTurn == con.Data.Color)
+                {
+                    
+                }
+            }
         }
     }
 }
