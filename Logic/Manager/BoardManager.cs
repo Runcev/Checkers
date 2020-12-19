@@ -5,25 +5,16 @@ using Shared.Models.Enums;
 
 namespace Logic.Manager
 {
-    public class BoardManager
+    public static class BoardManager
     {
-        private readonly GameInfoData _gameInfoData;
-
-        public BoardManager(GameInfoData gameInfoData)
+        public static Square GetSquare(this GameInfoData gameInfoData, int position)
         {
-            _gameInfoData = gameInfoData;
+            return gameInfoData.Board.FirstOrDefault(square => square.Position == position);
         }
 
-        public Square GetSquare(int position)
+        public static List<Square> GetPlayerSquares(this GameInfoData gameInfoData, Player player)
         {
-            return _gameInfoData.Board.FirstOrDefault(square => square.Position == position);
+            return gameInfoData.Board.Where(square => square.Color == player).ToList();
         }
-
-        public List<Square> GetPlayerSquares(Player player)
-        {
-            return _gameInfoData.Board.Where(square => square.Color == player).ToList();
-        }
-        
-        
     }
 }
