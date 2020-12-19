@@ -1,3 +1,4 @@
+using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
@@ -16,6 +17,6 @@ namespace Client.CheckersApiClient
         }
 
         public Task<GameInfo> GetGameInfo() => _apiClient.Get<GameInfo>("/game");
-        public Task ConnectToGame() => _apiClient.Post("/game?team_name=PepeLaugh", null);
+        public Task<Connect> ConnectToGame() => _apiClient.Post<Connect>($"/game?team_name=PepeLaugh{DateTime.Now.Millisecond}", null);
     }
 }
