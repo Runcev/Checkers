@@ -35,10 +35,6 @@ namespace Checkers.Services
 
             userStore.Token = con.Data.Token;
 
-            await Task.Delay(10000);
-
-            var moves = (await checkersApiClient.GetGameInfo()).Data.LastMove.Moves;
-
             while (!stoppingToken.IsCancellationRequested)
             {
                 if ((await checkersApiClient.GetGameInfo()).Data.WhoseTurn == con.Data.Color)
