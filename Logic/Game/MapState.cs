@@ -21,10 +21,10 @@ namespace Logic.Game
 
         public List<MoveAction> GetActions()
         {
-            return new()
+            return _gameInfo.PossibleMoves(GetPlayer()).Select(p => new MoveAction
             {
-                new() {Action = (9, 13)}
-            };
+                Action = p
+            }).ToList();
         }
         
         public void Move(MoveAction action)
@@ -53,13 +53,17 @@ namespace Logic.Game
                     (_, 0) => Player.Black,
                     _ => null
                 },
-                LastMove = lastMove with
+                LastMove = lastMove != null ? lastMove with
                     {
                         Player = GetPlayer(),
                         LastMoves = lastMove.Player == GetPlayer()
                         ? lastMove.LastMoves.Append(new (){from, to}).ToList()
                         : new (){new () {from, to}}
-                    },
+                    } : new LastMoveInfo
+                {
+                    Player = GetPlayer(),
+                    LastMoves = new (){new () {from, to}}
+                },
                 Board = newBoard.ToArray()
                 };
         }
@@ -76,19 +80,27 @@ namespace Logic.Game
 
         public int Eval()
         {
-            return _gameInfo.GetPlayerSquares(GetPlayer()).Sum(s => s.King ? 4 : 1);
+            if (GetPlayer() == Player.Red)
+            {
+                return _gameInfo.GetPlayerSquares(GetPlayer()).Sum(s => s.King ? 10 : s.Position >= 17 ? 7 : 5);
+            }
+            return _gameInfo.GetPlayerSquares(GetPlayer()).Sum(s => s.King ? 10 : s.Position < 17 ? 7 : 5);
         }
 
         public object Clone()
         {
-            return _gameInfo with
+            return new MapState(_gameInfo with
                 {
                 Board = _gameInfo.Board.Select(a => a with {}).ToArray(),
-                LastMove = _gameInfo.LastMove with 
-                    {
-                     LastMoves = _gameInfo.LastMove.LastMoves.Select(l => l.Select(i => i).ToList()).ToList()
-                    }
-                };
+                LastMove = _gameInfo.LastMove != null
+                    ? _gameInfo.LastMove with
+                        {
+                        LastMoves = _gameInfo.LastMove != null
+                            ? _gameInfo.LastMove.LastMoves.Select(l => l.Select(i => i).ToList()).ToList()
+                            : null
+                        }
+                    : null
+                });
         }
     }
 }

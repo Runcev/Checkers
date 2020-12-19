@@ -1,17 +1,17 @@
 using System.Collections.Generic;
-using GameSolver.Game;
-using PacMan.Entities;
-using PacMan.Players;
+using Logic.Interfaces;
+using Shared.Models;
+using Shared.Models.Enums;
 
-namespace PacMan.SkovorodaGame
+namespace Logic.Game
 {
-    public class PacmanGame : IGame<MapState, MoveAction, Player>
+    public class CheckersGame : IGame<MapState, MoveAction, Player>
     {
         private readonly MapState _initialState;
 
-        public PacmanGame(int level)
+        public CheckersGame(GameInfoData initialState)
         {
-            _initialState = new MapState(level);
+            _initialState = new MapState(initialState);
         }
 
         public MapState GetInitialState() => _initialState;

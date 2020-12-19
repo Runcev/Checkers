@@ -12,10 +12,12 @@ namespace Logic.Algorithm
      public class IterativeAlphaBeta : IAdversarialSearch<MapState, MoveAction>
     {
         private readonly IGame<MapState, MoveAction, Player> _game;
+        private readonly double _possibleTime;
 
         public IterativeAlphaBeta(IGame<MapState, MoveAction, Player> game, double possibleTime)
         {
-            _timer.Interval = possibleTime * 1000;
+            _possibleTime = possibleTime;
+            _timer.AutoReset = false;
             _timer.Elapsed += (_, _) => _isTimeElapsed = true;
             _game = game;
         }
@@ -23,27 +25,30 @@ namespace Logic.Algorithm
         private bool _isTimeElapsed = false;
         private readonly Timer _timer = new Timer();
         
-        
-        
         public MoveAction MakeDecision(MapState state)
         {
-            _isTimeElapsed = false;
-            _timer.Start();
+            // var actions = state.GetActions();
+            // return state.GetActions()[0];
+            
             var player = _game.GetPlayer(state);
             var results = _game.GetActions(state);
-            
+
+            _timer.Interval = _possibleTime / 2 / results.Count;
+
             var newResults = new List<(MoveAction action, double value)>();
             foreach (var action in results)
             {
                 var s = _game.GetResult(state, action);
                 var p = _game.GetPlayer(s);
+                _isTimeElapsed = false;
+                _timer.Start();
                 double value = AlphaBeta(s, p, double.NegativeInfinity, double.PositiveInfinity);
+                _timer.Stop();
 
                 newResults.Add((action, value));
             }
-
-            _timer.Stop();
             
+
             return player is Player.Red
                 ? GetMaxValueAction(newResults, state)
                 : GetMinValueAction(newResults, state);
