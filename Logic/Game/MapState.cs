@@ -29,19 +29,39 @@ namespace Logic.Game
         
         public void Move(MoveAction action)
         {
-            var player = GetPlayer();
+            var (from, to) = action.Action;
 
-            switch (action.Action)
+            var (whoseTurn, winner, board, lastMove) = _gameInfo;
+
+            var newBoard = board.ToList();
+            newBoard.Remove(_gameInfo.GetSquare(from));
+            newBoard.Add(new Square
             {
-                case MoveActionEnum.ForwardLeft:
-                    break;
-                case MoveActionEnum.ForwardRight:
-                    break;
-                case MoveActionEnum.BackLeft:
-                    break;
-                case MoveActionEnum.BackRight:
-                    break;
-            }
+                Color = GetPlayer(),
+                Position = to,
+                King = 
+                    (GetPlayer() == Player.Red && to >= 29) ||
+                    (GetPlayer() == Player.Black && to <= 4)
+            });
+
+            _gameInfo = _gameInfo with
+                {
+                WhoseTurn = whoseTurn == Player.Black ? Player.Red : Player.Black,
+                Winner = (_gameInfo.GetPlayerSquares(Player.Black).Count, _gameInfo.GetPlayerSquares(Player.Red).Count) switch
+                {
+                    (0, _) => Player.Red,
+                    (_, 0) => Player.Black,
+                    _ => null
+                },
+                LastMove = lastMove with
+                    {
+                        Player = GetPlayer(),
+                        LastMoves = lastMove.Player == GetPlayer()
+                        ? lastMove.LastMoves.Append(new (){from, to}).ToList()
+                        : new (){new () {from, to}}
+                    },
+                Board = newBoard.ToArray()
+                };
         }
 
         public int GetUtility(Player player)

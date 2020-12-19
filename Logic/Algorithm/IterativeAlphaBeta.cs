@@ -56,13 +56,13 @@ namespace Logic.Algorithm
             //     .Select(av => av.action).First();
         }
 
-        private List<MoveAction> OrderActions(List<(MoveAction action, double value)> actionValues, MapState state)
-        {
-            return actionValues
-                .OrderByDescending(av => av.value)
-                .OrderByDescending(av => _game.GetResult(state, av.action).Eval())
-                .Select(av => av.action).ToList();
-        }
+        // private List<MoveAction> OrderActions(List<(MoveAction action, double value)> actionValues, MapState state)
+        // {
+        //     return actionValues
+        //         .OrderByDescending(av => av.value)
+        //         .OrderByDescending(av => _game.GetResult(state, av.action).Eval())
+        //         .Select(av => av.action).ToList();
+        // }
 
         private MoveAction GetMaxValueAction(List<(MoveAction action, double value)> actionValues, MapState state)
         {
@@ -91,7 +91,7 @@ namespace Logic.Algorithm
 
             int value;
 
-            if (player == Player.Red) // player.Red
+            if (player == Player.Red)
             {
                 value = int.MinValue;
                 foreach (var action in _game.GetActions(state))
