@@ -1,21 +1,11 @@
-﻿namespace Logic.Game
-{
-    public enum MoveActionEnum
-    {
-        ForwardRight,
-        ForwardLeft,
-        BackLeft,
-        BackRight
-        
-    }
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
+namespace Logic.Game
+{
     public class MoveAction
     {
-        public MoveAction(MoveActionEnum action)
-        {
-            Action = action;
-        }
-
-        public MoveActionEnum Action { get; }
+        public (int from, int to) Action { get; init; }
     }
 }
