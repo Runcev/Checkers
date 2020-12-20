@@ -48,26 +48,12 @@ namespace Logic.Algorithm
                 newResults.Add((action, value));
             }
             
-
             return player is Player.Red
                 ? GetMaxValueAction(newResults, state)
                 : GetMinValueAction(newResults, state);
-                // ? OrderActions(newResults, state)[0]
-                // : OrderActions(newResults, state).Last();
-            // ? newResults.MaxBy(av => av.value).action
-            // : newResults.MinBy(av => av.value).action;
-            // : newResults
-            //     .OrderBy(av => _game.GetResult(state, av.action).Eval())
-            //     .Select(av => av.action).First();
+            
         }
-
-        // private List<MoveAction> OrderActions(List<(MoveAction action, double value)> actionValues, MapState state)
-        // {
-        //     return actionValues
-        //         .OrderByDescending(av => av.value)
-        //         .OrderByDescending(av => _game.GetResult(state, av.action).Eval())
-        //         .Select(av => av.action).ToList();
-        // }
+        
 
         private MoveAction GetMaxValueAction(List<(MoveAction action, double value)> actionValues, MapState state)
         {

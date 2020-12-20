@@ -20,7 +20,7 @@ namespace Client.CheckersApiClient
 
         public Task<GameInfo> GetGameInfo() => _apiClient.Get<GameInfo>("/game");
         public async Task<Connect> ConnectToGame() => 
-            await (await _apiClient.Post($"/game?team_name=PepeLaugh{DateTime.Now.Millisecond}", null))
+            await (await _apiClient.Post($"/game?team_name=PepeLaugh", null))
             .Content.ReadFromJsonAsync<Connect>(ApiClient.JsonOptions);
         public Task<HttpResponseMessage> MakeMove((int from, int to) moveP)
         {
