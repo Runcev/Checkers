@@ -135,29 +135,6 @@ namespace Logic.Manager
 
         public static List<(int from, int to)> PossibleMoves(this GameInfoData gameInfoData, Player player)
         {
-            if (gameInfoData.LastMove != null)
-            {
-                if (gameInfoData.LastMove.Player == player)
-                {
-                    var square = gameInfoData.GetSquare(gameInfoData.LastMove.Moves.Last().to);
-
-                    var to = square.King
-                        ? KingCanMove[square.Position]
-                        : (square.Color == Player.Black
-                            ? BlackNotKingCanMove[square.Position]
-                            : RedNotKingCanMove[square.Position]);
-
-                    var capture = to
-                        .Where(d => gameInfoData.GetSquare(d)?.Color != player &&
-                                    CaptureMove.ContainsKey((square.Position, d)) &&
-                                    gameInfoData.GetSquare(CaptureMove[(square.Position, d)]) == null)
-                        .Select(i => (square.Position, CaptureMove[(square.Position, i)])).ToList();
-
-                    return capture.Any() ? new() {capture[0]} : null;
-
-                }
-            }
-
             var squares = gameInfoData.GetPlayerSquares(player);
 
             var posDest = squares
