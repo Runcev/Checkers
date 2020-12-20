@@ -83,12 +83,6 @@ namespace Logic.Game
         public int Eval()
         {
             return Count_Curr_Move();
-            
-            if (GetPlayer() == Player.Red)
-            {
-               return _gameInfo.GetPlayerSquares(GetPlayer()).Sum(s => s.King ? 10 : s.Position >= 17 ? 7 : 5);
-            }
-            return _gameInfo.GetPlayerSquares(GetPlayer()).Sum(s => s.King ? 10 : s.Position < 17 ? 7 : 5);
         }
 
         private int Count_Curr_Move()
@@ -230,12 +224,12 @@ namespace Logic.Game
 
             
 
-        public bool AdjacentToTheEdge(int i, int j)
+        private bool AdjacentToTheEdge(int i, int j)
         {
             return i == 0 || j == 0 || i == 7 || j == 7;
         }
 
-        public static bool OnLowerTwoPlayers(int i, Player player)
+        private static bool OnLowerTwoPlayers(int i, Player player)
         {
             if (player == Player.Red)
             {
@@ -257,7 +251,7 @@ namespace Logic.Game
             }
         }
         
-        public bool OnTopThreePlayers(int i, Player player)
+        private bool OnTopThreePlayers(int i, Player player)
         {
             if (player == Player.Red)
             {
@@ -279,7 +273,7 @@ namespace Logic.Game
             }
         }
 
-        public bool CentrallyPositioned(int i, int j)
+        private bool CentrallyPositioned(int i, int j)
         {
             if ((2 <= i && i <= 5) && (2 <= j && j <= 5))
             {
@@ -289,7 +283,7 @@ namespace Logic.Game
             return false;
         }
 
-        public bool OnPositionWhite(int i)
+        private bool OnPositionWhite(int i)
         {
             var square = _gameInfo.GetSquare(i);
             if (square == null)
@@ -297,10 +291,10 @@ namespace Logic.Game
                 return false;
             }
 
-            return square.Color == Player.Red;
+            return square.Color == _gameInfo.WhoseTurn;
         }
         
-        public bool OnPositionBlack(int i)
+        private bool OnPositionBlack(int i)
         {
             var square = _gameInfo.GetSquare(i);
             if (square == null)
@@ -311,7 +305,7 @@ namespace Logic.Game
             return square.Color == Player.Black;
         }
 
-        public bool Triangle(Player player)
+        private bool Triangle(Player player)
         {
             if (player == Player.Red)
             {
@@ -321,7 +315,7 @@ namespace Logic.Game
             return OnPositionBlack(27) && OnPositionBlack(31) && OnPositionBlack(32);
         }
         
-        public bool Oreo(Player player)
+        private bool Oreo(Player player)
         {
             if (player == Player.Red)
             {
@@ -331,7 +325,7 @@ namespace Logic.Game
             return OnPositionBlack(26) && OnPositionBlack(30) && OnPositionBlack(31);
         }
 
-        public bool Bridge(Player player)
+        private bool Bridge(Player player)
         {
             if (player == Player.Red)
             {
@@ -341,7 +335,7 @@ namespace Logic.Game
             return OnPositionBlack(30) && OnPositionBlack(32);
         }
 
-        public bool Dog(Player player)
+        private bool Dog(Player player)
         {
             if (player == Player.Red)
             {
@@ -351,7 +345,7 @@ namespace Logic.Game
             return OnPositionWhite(28) && OnPositionBlack(32);
         }
 
-        public bool KingInCorner(Player player)
+        private bool KingInCorner(Player player)
         {
             if (player == Player.Red)
             {
