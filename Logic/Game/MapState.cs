@@ -103,8 +103,12 @@ namespace Logic.Game
 
             foreach (var square in _gameInfo.Board)
             {
-                var column = square.Column;
-                var row = square.Row;
+                if (square.Color != Player.Black && square.Color != Player.Red)
+                {
+                    continue;
+                }
+                var column = square.Row;
+                var row = (column % 2 == 0) ? (square.Column * 2 + 1) : square.Column * 2;
 
                 if (square.King)
                 {
@@ -183,7 +187,7 @@ namespace Logic.Game
                             numTopThree -= 1;
                         }
 
-                        if (CentrallyPositioned(row, square.Column))
+                        if (CentrallyPositioned(row, column))
                         {
                             numCenterPawn -= 1;
                         }
@@ -194,7 +198,6 @@ namespace Logic.Game
                         }
                     }
                 }
-
 
                 if (GetPlayer() == Player.Red)
                 {
@@ -226,7 +229,12 @@ namespace Logic.Game
 
         private bool AdjacentToTheEdge(int i, int j)
         {
-            return i == 0 || j == 0 || i == 7 || j == 7;
+            if (i == 0 || j == 0 || i == 7 || j == 7)
+            {
+                return true;
+            }
+
+            return false;
         }
 
         private static bool OnLowerTwoPlayers(int i, Player player)
