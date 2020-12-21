@@ -6,7 +6,8 @@
       "environmentVariables": {
         "DOTNET_ENVIRONMENT": "Development",
         "BaseApiUri": "http://localhost:8081"
-      }
+      },
+      "BaseApiUri": "http://localhost:8081"
     }
   }
 }

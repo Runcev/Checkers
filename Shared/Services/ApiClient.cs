@@ -33,7 +33,7 @@ namespace Shared.Services
             _logger = logger;
         }
 
-        private string AddBasePath(string path) => $"{_configuration["BaseApiUri"]}{path}";
+        private string AddBasePath(string path) => $"http://localhost:8081{path}";
         
         public Task<T> Get<T>(string url) => SendRequest(client => client.GetFromJsonAsync<T>(AddBasePath(url), JsonOptions));
 
