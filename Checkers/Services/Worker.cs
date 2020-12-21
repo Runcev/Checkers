@@ -38,8 +38,7 @@ namespace Checkers.Services
             var connect = await checkersApiClient.ConnectToGame();
 
             userStore.Token = connect.Data.Token;
-
-            // while (!stoppingToken.IsCancellationRequested)
+            
             while (true)
             {
                 var data = (await checkersApiClient.GetGameInfo()).Data;
@@ -47,13 +46,11 @@ namespace Checkers.Services
                 if (data.IsStarted && data.WhoseTurn == connect.Data.Color)
                 {
                     var move = search.MakeDecision(new MapState(data));
-
-                    // _logger.LogWarning(move.Action.ToString());
                     
                     await checkersApiClient.MakeMove(move.Action);
                 }
 
-                await Task.Delay(1000);
+                await Task.Delay(200);
             }
         }
     }

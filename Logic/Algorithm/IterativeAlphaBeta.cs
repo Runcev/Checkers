@@ -27,13 +27,10 @@ namespace Logic.Algorithm
         
         public MoveAction MakeDecision(MapState state)
         {
-            // var actions = state.GetActions();
-            // return state.GetActions()[0];
-            
             var player = _game.GetPlayer(state);
             var results = _game.GetActions(state);
 
-            _timer.Interval = _possibleTime / 2 / results.Count;
+            _timer.Interval = _possibleTime / 1.5 / results.Count;
 
             var newResults = new List<(MoveAction action, double value)>();
             foreach (var action in results)
